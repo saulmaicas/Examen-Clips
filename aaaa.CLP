@@ -8,15 +8,6 @@
 	(objetivo 21)
 )
 
-(defrule sumar
-	(numero ?n)
-	(variable ?v)
-	(not (objetivo = ?n))
-=>
-    	(assert (variable (+ ?v ?n)))
-    	(printout t "SUMAMOS" crlf)
-)
-
 (defrule solucion
 	(salience 99)
 	(variable ?v)

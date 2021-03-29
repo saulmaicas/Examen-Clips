@@ -11,7 +11,7 @@
 (defrule sumar
 	(numero ?n)
 	(variable ?v)
-	(not (objetivo = ?n))
+	(not (objetivo = (?n)))
 =>
     	(assert (variable (+ ?v ?n)))
     	(printout t "SUMAMOS" crlf)
