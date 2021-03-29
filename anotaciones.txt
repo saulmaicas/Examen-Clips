@@ -9,40 +9,52 @@
 )
 
 (defrule sumar
-	(numero ?primero ?segundo ?tercero? cuarto? ?quinto)
+	(numero $?primero $?segundo $?tercero $cuarto? $?quinto)
 	(variable ?v)
-	(not (objetivo = ?n))
+	(objetivo ?o)
+	(?v =(+ $?primero $?segundo))
+	(not (objetivo = ?v))
 =>
-    	(assert (variable (+ ?v ?n)))
+    	(assert (variable ?v))
+	(assert ($?tercero $?cuarto $?quinto ?v)
     	(printout t "SUMAMOS y obtenemos ?v" crlf)
 )
 
 (defrule restar
-	(numero ?primero ?segundo ?tercero? cuarto? ?quinto)
+	(numero $?primero $?segundo $?tercero $cuarto? $?quinto)
 	(variable ?v)
-	(?v = (?primero * ?segundo))
-	(not (objetivo = ?n))
+	(objetivo ?o)
+	(?v =(- ?primero ?segundo))
+	(test (> ?primero ?segundo)
+	(not (objetivo = ?v))
 =>
-    	(assert (variable (div(?n ))))
+    	(assert (variable ?v))
+	(assert (?tercero ?cuarto ?quinto ?v)
     	(printout t "RESTAMOS y obtenemos ?v" crlf)
 )
 
 (defrule multiplicar
-	(numero ?primero ?segundo ?tercero? cuarto? ?quinto)
+	(numero $?primero $?segundo $?tercero $cuarto? $?quinto)
 	(variable ?v)
+	(objetivo ?o)
 	(?v = (?primero * ?segundo))
 	(not (objetivo = ?v))
 =>
     	(assert (variable ?v))
+	(assert (?tercero ?cuarto ?quinto ?v)
     	(printout t "MULTIPLICAMOS y obtenemos ?v" crlf)
 )
 
 (defrule dividir
-	(numero ?primero ?segundo ?tercero? cuarto? ?quinto)
+	(numero $?primero $?segundo $?tercero ?$cuarto? $?quinto)
 	(variable ?v)
-	(not (objetivo = ?n))
+	(objetivo ?o)
+	(?v = (div($?primero $?segundo)))
+	(test (= 0 (mod($?primero $?segundo))))
+	(not (objetivo = ?v))
 =>
-    	(assert (variable (+ ?v ?n)))
+    	(assert (variable ?v))
+	(assert ($?tercero $?cuarto $?quinto ?v)
     	(printout t "DIVIDIMOS y obtenemos ?v" crlf)
 )
 
