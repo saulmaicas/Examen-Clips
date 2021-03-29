@@ -1,0 +1,63 @@
+(deffacts datos
+	(numeros 5 3 8 14 7)
+	(variable 0)
+	(objetivo 21)
+)
+
+(defrule sumar
+	(numeros ?primero ?segundo ?tercero ?cuarto ?quinto)
+	(variable ?v)
+	(objetivo ?o)
+     	(test (= ?v ?o))
+=>
+    	(assert (robot ?x ?y estado 1 profundidad ?p))
+    	(printout t "SUMAMOS" crlf)
+)
+
+(defrule restar
+ 	(robot ?x ?y estado ?e profundidad ?p)
+    	(almacen ?x2 ?y2)
+     	(test (= ?x ?x2))
+     	(test (= ?y ?y2))
+     	(test (= ?e 1))
+=>
+    	(printout t "DEJO PAQUETE" crlf)
+	(printout t "FIN" crlf)
+    	(halt)
+)
+
+(defrule multiplicar
+	(robot ?x ?y estado ?e profundidad ?p)
+	(not (obstaculo =(- ?x 1) ?y))
+	(limites ?xmin ?xmax ?ymax ?ymin)
+	(profundidadMax ?pm)
+	(test (< ?p ?pm)) 
+	(test (<= ?xmin(- ?x 1)))
+=>
+	(assert (robot (- ?x 1) ?y estado ?e profundidad (+ ?p  1)))
+	(printout t "muevo arriba" crlf)
+)
+
+(defrule mover_abajo
+	(robot ?x ?y estado ?e profundidad ?p)
+	(not (obstaculo =(+ ?x 1) ?y))
+	(limites ?xmin ?xmax ?ymax ?ymin)
+	(profundidadMax ?pm)
+	(test (< ?p ?pm)) 
+	(test (>= ?xmax(+ ?x 1)))
+=>
+	(assert (robot (+ ?x 1) ?y estado ?e profundidad (+ ?p  1)))
+	(printout t "muevo abajo" crlf)
+)
+
+(defrule dividir
+	(robot ?x ?y estado ?e profundidad ?p)
+	(not (obstaculo ?x =(+ ?y 1)))
+	(limites ?xmin ?xmax ?ymax ?ymin)
+	(profundidadMax ?pm)
+	(test (< ?p ?pm)) 
+	(test (>= ?ymax(+ ?y 1)))
+=>
+	(assert (robot ?x (+ ?y 1) estado ?e profundidad (+ ?p  1)))
+	(printout t "muevo derecha" crlf)
+)
